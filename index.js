@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
+import { getAllTransaksi } from './controllers/admin/transaksi.js';
 
 const app = express();
 const port = 3000;
@@ -19,7 +20,7 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:true}));
 
 app.use(cookieParser('secret'));
-app.use(session({secret:'secret'}));
+app.use(session({secret:'secret', resave: false, saveUninitialized: true}));
 
 app.get('/', (req, res) => {
   res.render('auth/login',{
@@ -36,5 +37,7 @@ app.get('/signup', (req, res) => {
 });
 
 app.use('/dashboard', getAllDashboard);
+app.use('/transaksi', getAllTransaksi);
+
 
 app.listen(port, () => console.log(`Apps run on http://localhost:${port}`));

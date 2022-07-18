@@ -1,3 +1,5 @@
 export const getAllDashboard = (req, res) => {
-  res.send("Dashboard");
+  res.render('pages/dashboard',{
+    layout: 'layouts/admin'
+  });
 }
