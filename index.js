@@ -20,7 +20,7 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:true}));
 
 app.use(cookieParser('secret'));
-app.use(session({secret:'secret', resave: false, saveUninitialized: true}));
+app.use(session({secret:'secret'}));
 
 app.get('/', (req, res) => {
   res.render('auth/login',{
@@ -29,11 +29,37 @@ app.get('/', (req, res) => {
   });
 });
 
+app.post('/', (req, res) => {
+  const session_store = req.session;
+  session_store.username = `${req.body.username}|session`; 
+  session_store.password = `${req.body.password}|session`;
+  session_store.detail = [
+    {
+      name: 'Hanin',
+      gender: 'Women'
+    },
+    {
+      name: 'Naima',
+      gender: 'Women'
+    },
+  ];
+  res.send(session_store);
+});
+
 app.get('/signup', (req, res) => {
   res.render('auth/signup',{
     title: 'Login',
     layout: 'layouts/auth'
   });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+});
+
+app.get('/sesi', (req, res) => {
+  const session_store = req.session;
+  res.send(session_store);
 });
 
 app.use('/dashboard', getAllDashboard);
