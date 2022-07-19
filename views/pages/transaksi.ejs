@@ -4,16 +4,22 @@
         <div class="col-md-5">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="/addCart">
                         <div class="form-group">
+                            <% const d = new Date(); %>
+                            <input type="hidden" name="idCart" value="<%= d.getTime() %>">
                             <label>Pilih Barang:</label>
-                            <select class="form-control">
-                                <option selected>Pilih</option>
+                            <select class="form-control" name="id_barang">
+                                <% goods.forEach( good=> { %>
+                                    <option value="<%= good.id %>">
+                                        <%= good.nama_barang %>
+                                    </option>
+                                    <% }) %>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Qty</label>
-                            <input type="number" class="form-control" placeholder="Jumlah">
+                            <input type="number" class="form-control" name="jumlah" placeholder="Jumlah">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-cart-plus"></i> Tambah
                             ke keranjang</button>
@@ -24,22 +30,22 @@
         <div class="col-md-7">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="/checkout">
                         <div class="form-row">
                             <div class="col">
+                                <input type="hidden" class="form-control" name="no_trx" value="TRX<%= d.getTime() %>">
                                 <div class="form-group">
                                     <label>Pelanggan:</label>
-                                    <select class="form-control">
+                                    <input type="text" class="form-control" name="nama_pelanggan">
+                                    <!-- <select class="form-control">
                                         <option selected>Pilih</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Tipe:</label>
-                                    <select class="form-control">
-                                        <option selected>Pilih</option>
-                                    </select>
+                                    <label>Tanggal:</label>
+                                    <input type="date" class="form-control" name="tanggal">
                                 </div>
                             </div>
                         </div>
@@ -51,7 +57,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp</span>
                                         </div>
-                                        <input type="number" class="form-control" placeholder="0">
+                                        <input type="number" class="form-control" name="bayar" placeholder="0">
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +78,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Barang</th>
+                            <th>Vendor</th>
                             <th>Qty</th>
                             <th>Harga(pcs)</th>
                             <th>Total</th>
@@ -79,32 +86,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Indomie Goreng</td>
-                            <td>2</td>
-                            <td>Rp2.000</td>
-                            <td>Rp4.000</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm"><i
-                                        class="fas fa-times"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Sedap Goreng</td>
-                            <td>2</td>
-                            <td>Rp3.000</td>
-                            <td>Rp6.000</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm"><i
-                                        class="fas fa-times"></i></button>
-                            </td>
-                        </tr>
+                        <% let no = 1; %>
+                        <% let total = 0; %>
+                        <% let totalBayar = 0; %>
+                            <% if(carts !=null) { %>
+                                <% carts.forEach(element=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= no++ %>
+                                        </td>
+                                        <td>
+                                            <%= element.nama_barang %>
+                                        </td>
+                                        <td>
+                                            <%= element.vendor %>
+                                        </td>
+                                        <td>
+                                            <%= element.jumlah %>
+                                        </td>
+                                        <td>
+                                            Rp<%= element.harga.toLocaleString('id-ID') %>
+                                        </td>
+                                        <td>
+                                            <% total = element.harga * element.jumlah %>
+                                            Rp<%= total.toLocaleString('id-ID') %>
+                                            <% totalBayar += total %>
+                                        </td>
+                                        <td>
+                                            <form action="/deleteItem?_method=DELETE" method="POST">
+                                                <input type="hidden" name="idCart" value="<%= element.idCart %>">
+                                                <button type="submit" class="btn btn-danger btn-sm"><i
+                                                        class="fas fa-times"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } %>
                     </tbody>
                 </table>
                 <hr>
-                <h2 class="text-right"><b>Rp10.000</b></h2>
+                <h2 class="text-right"><b>Rp<%= totalBayar.toLocaleString('id-ID') %></b></h2>
             </div>
         </div>
     </div>
