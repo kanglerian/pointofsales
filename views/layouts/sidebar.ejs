@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/cashier">
         <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-store"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Toko Ale</div>
@@ -29,12 +29,14 @@
             <i class="fas fa-book-open"></i>
             <span>Transaksi</span></a>
     </li>
+    <% if(!user.role) { %>
     <!-- Nav Item - Charts -->
     <li class="nav-item <%= url === '/barang' ? 'active' : '' %>">
         <a class="nav-link" href="/barang">
             <i class="fas fa-fw fa-boxes"></i>
             <span>Barang</span></a>
     </li>
+    <% } %>
 
 
     <!-- Divider -->

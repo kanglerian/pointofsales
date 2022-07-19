@@ -9,6 +9,7 @@ import { getAllCashier, getAllTransaksi, getTransaksi } from './controllers/admi
 import { getAllBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
+import Auth from './middlewares/auth.js';
 
 const app = express();
 const port = 3000;
@@ -58,15 +59,15 @@ app.delete('/deleteItem', (req, res) => {
   const session_store = req.session;
   let carts = session_store.carts;
   for (let i = 0; i < penampungan.length; i++) {
-    if(carts[i].idCart == idCart){
-      carts.splice(i,1)
-      penampungan.splice(i,1);
+    if (carts[i].idCart == idCart) {
+      carts.splice(i, 1)
+      penampungan.splice(i, 1);
     }
   }
   res.redirect('back');
 });
 
-app.post('/checkout', async (req, res) =>{
+app.post('/checkout', async (req, res) => {
   const session_store = req.session;
   const transaksi = req.body;
   let detailTransaksi = [];
@@ -88,13 +89,29 @@ app.post('/checkout', async (req, res) =>{
   res.redirect(`invoice/${req.body.no_trx}`);
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const date = new Date();
   const session_store = req.session;
-  session_store.username = req.body.username;
-  session_store.loggedTime = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
-  session_store.loggedIn = true;
-  res.redirect('/transaksi');
+  if (req.body.username == "" || req.body.password == "") {
+    return res.redirect('/');
+  }
+  const username = req.body.username;
+  const password = req.body.password;
+  const user = await Model.Pengguna.findOne({
+    where: {
+      username: username
+    }
+  });
+  if (user == null) {
+    res.redirect('/')
+  } else if (username === user.username && password === user.password) {
+    session_store.username = user.username;
+    session_store.role = user.role;
+    session_store.loggedIn = true;
+    res.redirect('/cashier');
+  } else {
+    res.redirect('/')
+  };
 });
 
 app.get('/signup', (req, res) => {
@@ -124,7 +141,7 @@ app.get('/invoice/:trx', async (req, res) => {
       no_trx: req.params.trx
     }
   });
-  res.render('pages/faktur',{
+  res.render('pages/faktur', {
     layout: 'layouts/faktur',
     detail,
     transaksi,
@@ -137,15 +154,15 @@ app.get('/sesi', (req, res) => {
   res.send(session_store);
 });
 
-app.get('/car', (req,res) => {
+app.get('/car', (req, res) => {
   res.send(penampungan);
 });
 
-app.use('/dashboard', getAllDashboard);
-app.use('/cashier', getAllCashier);
-app.use('/transaksi/:trx', getTransaksi);
-app.use('/transaksi', getAllTransaksi);
-app.use('/barang', getAllBarang);
+app.use('/dashboard', Auth.checkLogin, Auth.checkStatus, getAllDashboard);
+app.use('/cashier', Auth.checkLogin, getAllCashier);
+app.use('/transaksi/:trx', Auth.checkLogin, getTransaksi);
+app.use('/transaksi', Auth.checkLogin, getAllTransaksi);
+app.use('/barang', Auth.checkLogin, Auth.checkStatus, getAllBarang);
 
 
 app.listen(port, () => console.log(`Apps run on http://localhost:${port}`));
