@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
-import { getAllTransaksi } from './controllers/admin/transaksi.js';
+import { getAllCashier, getAllTransaksi, getTransaksi } from './controllers/admin/transaksi.js';
 import { getAllBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
@@ -85,7 +85,7 @@ app.post('/checkout', async (req, res) =>{
   await Model.DetailTransaksi.bulkCreate(detailTransaksi);
   penampungan = [];
   session_store.carts = [];
-  res.redirect('back');
+  res.redirect(`invoice/${req.body.no_trx}`);
 });
 
 app.post('/login', (req, res) => {
@@ -112,6 +112,26 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/invoice/:trx', async (req, res) => {
+  const session_store = req.session;
+  const transaksi = await Model.Transaksi.findOne({
+    where: {
+      no_trx: req.params.trx
+    }
+  });
+  const detail = await Model.DetailTransaksi.findAll({
+    where: {
+      no_trx: req.params.trx
+    }
+  });
+  res.render('pages/faktur',{
+    layout: 'layouts/faktur',
+    detail,
+    transaksi,
+    user: session_store
+  });
+});
+
 app.get('/sesi', (req, res) => {
   const session_store = req.session;
   res.send(session_store);
@@ -122,6 +142,8 @@ app.get('/car', (req,res) => {
 });
 
 app.use('/dashboard', getAllDashboard);
+app.use('/cashier', getAllCashier);
+app.use('/transaksi/:trx', getTransaksi);
 app.use('/transaksi', getAllTransaksi);
 app.use('/barang', getAllBarang);
 

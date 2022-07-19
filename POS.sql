@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 19 Jul 2022 pada 06.53
+-- Waktu pembuatan: 19 Jul 2022 pada 10.10
 -- Versi server: 10.4.18-MariaDB
 -- Versi PHP: 7.4.16
 
@@ -40,7 +40,8 @@ CREATE TABLE `barang` (
 
 INSERT INTO `barang` (`id`, `nama_barang`, `vendor`, `harga`) VALUES
 (1, 'Indomie Goreng', 'Hanin Store', 3000),
-(2, 'Sedap Goreng', 'Ale Store', 2500);
+(2, 'Sedap Goreng', 'Ale Store', 2500),
+(3, 'Sarimi Goreng', 'Asia Plaza', 3500);
 
 -- --------------------------------------------------------
 
@@ -62,12 +63,9 @@ CREATE TABLE `detail_transaksi` (
 --
 
 INSERT INTO `detail_transaksi` (`id`, `no_trx`, `nama_barang`, `vendor`, `harga`, `jumlah`) VALUES
-(7, 'TRX1658206167686', 'Indomie Goreng', 'Invalid date', 3000, 1),
-(8, 'TRX1658206167686', 'Sedap Goreng', 'Invalid date', 2500, 2),
-(9, 'TRX1658206299836', 'Indomie Goreng', 'Invalid date', 3000, 1),
-(10, 'TRX1658206299836', 'Sedap Goreng', 'Invalid date', 2500, 2),
-(11, 'TRX1658206327784', 'Indomie Goreng', 'Invalid date', 3000, 2),
-(12, 'TRX1658206327784', 'Sedap Goreng', 'Invalid date', 2500, 2);
+(27, 'TRX1658215816171', 'Indomie Goreng', 'Hanin Store', 3000, 2),
+(28, 'TRX1658215816171', 'Sedap Goreng', 'Ale Store', 2500, 2),
+(29, 'TRX1658218192944', 'Sarimi Goreng', 'Asia Plaza', 3500, 2);
 
 -- --------------------------------------------------------
 
@@ -87,9 +85,8 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`no_trx`, `nama_pelanggan`, `tanggal`, `bayar`) VALUES
-('TRX1658206167686', 'sads', '2022-07-19', 10000),
-('TRX1658206299836', 'Leian', '2022-07-20', 10000),
-('TRX1658206327784', 'agus', '2022-07-19', 15000);
+('TRX1658215816171', 'Agus Suherman', '2022-07-19', 15000),
+('TRX1658218192944', 'Sopyan', '2022-07-19', 10000);
 
 --
 -- Indexes for dumped tables
@@ -121,13 +118,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

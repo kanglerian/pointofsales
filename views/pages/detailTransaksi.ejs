@@ -1,0 +1,66 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header">
+      <a href="/transaksi">
+        <h5 class="card-title btn btn-primary">
+          No. Transaksi: <%= transaksi.no_trx %>
+        </h5>
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Barang</th>
+              <th>Supplier</th>
+              <th>Jumlah</th>
+              <th>Harga(pcs)</th>
+              <th>Total</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let no=1; %>
+              <% let total=0; %>
+                <% let totalBayar=0; %>
+                  <% detail.forEach(element=> { %>
+                    <tr>
+                      <td>
+                        <%= no++ %>
+                      </td>
+                      <td>
+                        <%= element.nama_barang %>
+                      </td>
+                      <td>
+                        <%= element.vendor %>
+                      </td>
+                      <td>
+                        <%= element.jumlah %>
+                      </td>
+                      <td>
+                        <%= element.harga %>
+                      </td>
+                      <td>
+                        Rp<%= total=element.harga * element.jumlah %>
+                          <% totalBayar +=total %>
+                      </td>
+                      <td>
+                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <h2 class="text-right"><b>Rp<%= totalBayar.toLocaleString('id-ID') %></b></h2>
+    </div>
+  </div>
+
+</div>
+<!-- /.container-fluid -->

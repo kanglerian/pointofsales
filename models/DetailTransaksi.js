@@ -11,7 +11,7 @@ const DetailTransaksi = db.define('detail_transaksi',{
     type: DataTypes.STRING
   },
   vendor: {
-    type: DataTypes.DATE
+    type: DataTypes.STRING
   },
   harga: {
     type: DataTypes.INTEGER
