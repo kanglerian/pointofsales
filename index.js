@@ -31,19 +31,13 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   const session_store = req.session;
-  session_store.username = `${req.body.username}|session`; 
-  session_store.password = `${req.body.password}|session`;
-  session_store.detail = [
-    {
-      name: 'Hanin',
-      gender: 'Women'
-    },
-    {
-      name: 'Naima',
-      gender: 'Women'
-    },
-  ];
-  res.send(session_store);
+  let data = session_store.detail = [];
+  var obj = {
+    username: req.body.username,
+    password: req.body.password,
+  }
+  data.push(obj);
+  res.redirect('/');
 });
 
 app.get('/signup', (req, res) => {
