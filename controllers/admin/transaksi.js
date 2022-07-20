@@ -23,8 +23,6 @@ export const getAllTransaksi = async (req, res) => {
   });
 }
 
-
-
 export const getTransaksi = async (req, res) => {
   const session_store = req.session;
   const transaksi = await Model.Transaksi.findOne({
@@ -44,4 +42,24 @@ export const getTransaksi = async (req, res) => {
     detail: detail,
     url: req.originalUrl,
   });
+}
+
+export const deleteTransaksi = async (req, res) => {
+  try {
+    await Model.Transaksi.destroy({
+      where: {
+        no_trx: req.body.trx
+      }
+    });
+    await Model.DetailTransaksi.destroy({
+      where: {
+        no_trx: req.body.trx
+      }
+    });
+    res.redirect('back');
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
 }

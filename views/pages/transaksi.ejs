@@ -34,7 +34,10 @@
                     <a href="/invoice/<%= element.no_trx %>" target="_blank" class="btn btn-info btn-sm"><i class="fas fa-print"></i></a>
                     <a href="/transaksi/<%= element.no_trx %>" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
                     <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    <form action="/transaksi/delete?_method=DELETE" method="POST" class="d-inline">
+                      <input type="hidden" name="trx" value="<%= element.no_trx %>">
+                      <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                    </form>
                   </td>
                 </tr>
                 <% }); %>

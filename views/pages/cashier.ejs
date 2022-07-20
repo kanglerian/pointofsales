@@ -6,20 +6,20 @@
                 <div class="card-body">
                     <form method="POST" action="/addCart">
                         <div class="form-group">
-                            <% const d = new Date(); %>
-                            <input type="hidden" name="idCart" value="<%= d.getTime() %>">
-                            <label>Pilih Barang:</label>
-                            <select class="form-control" name="id_barang">
-                                <% goods.forEach( good=> { %>
-                                    <option value="<%= good.id %>">
-                                        <%= good.nama_barang %>
-                                    </option>
-                                    <% }) %>
-                            </select>
+                            <% const d=new Date(); %>
+                                <input type="hidden" name="idCart" value="<%= d.getTime() %>">
+                                <label>Pilih Barang:</label>
+                                <select class="form-control" name="id_barang">
+                                    <% goods.forEach( good=> { %>
+                                        <option value="<%= good.id %>">
+                                            <%= good.nama_barang %>
+                                        </option>
+                                        <% }) %>
+                                </select>
                         </div>
                         <div class="form-group">
                             <label>Qty</label>
-                            <input type="number" class="form-control" name="jumlah" placeholder="Jumlah">
+                            <input type="number" class="form-control" name="jumlah" placeholder="Jumlah" required>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-cart-plus"></i> Tambah
                             ke keranjang</button>
@@ -36,7 +36,8 @@
                                 <input type="hidden" class="form-control" name="no_trx" value="TRX<%= d.getTime() %>">
                                 <div class="form-group">
                                     <label>Pelanggan:</label>
-                                    <input type="text" class="form-control" name="nama_pelanggan" value="" placeholder="Tulis nama pelanggan disini...">
+                                    <input type="text" class="form-control" name="nama_pelanggan" value=""
+                                        placeholder="Tulis nama pelanggan disini...">
                                 </div>
                             </div>
                             <div class="col">
@@ -54,7 +55,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Rp</span>
                                         </div>
-                                        <input type="number" class="form-control" name="bayar" placeholder="0">
+                                        <input type="number" class="form-control" name="bayar" placeholder="0" required>
                                     </div>
                                 </div>
                             </div>
@@ -82,39 +83,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% let no = 1; %>
-                        <% let total = 0; %>
-                        <% let totalBayar = 0; %>
-                            <% if(carts !=null) { %>
-                                <% carts.forEach(element=> { %>
-                                    <tr>
-                                        <td>
-                                            <%= no++ %>
-                                        </td>
-                                        <td>
-                                            <%= element.nama_barang %>
-                                        </td>
-                                        <td>
-                                            <%= element.jumlah %>
-                                        </td>
-                                        <td>
-                                            Rp<%= element.harga.toLocaleString('id-ID') %>
-                                        </td>
-                                        <td>
-                                            <% total = element.harga * element.jumlah %>
-                                            Rp<%= total.toLocaleString('id-ID') %>
-                                            <% totalBayar += total %>
-                                        </td>
-                                        <td>
-                                            <form action="/deleteItem?_method=DELETE" method="POST">
-                                                <input type="hidden" name="idCart" value="<%= element.idCart %>">
-                                                <button type="submit" class="btn btn-danger btn-sm"><i
-                                                        class="fas fa-times"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <% }); %>
-                                        <% } %>
+                        <% let no=1; %>
+                            <% let total=0; %>
+                                <% let totalBayar=0; %>
+                                    <% if(carts !=null) { %>
+                                        <% carts.forEach(element=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= no++ %>
+                                                </td>
+                                                <td>
+                                                    <%= element.nama_barang %>
+                                                </td>
+                                                <td>
+                                                    <%= element.jumlah %>
+                                                </td>
+                                                <td>
+                                                    Rp<%= element.harga.toLocaleString('id-ID') %>
+                                                </td>
+                                                <td>
+                                                    <% total=element.harga * element.jumlah %>
+                                                        Rp<%= total.toLocaleString('id-ID') %>
+                                                            <% totalBayar +=total %>
+                                                </td>
+                                                <td>
+                                                    <form action="/deleteItem?_method=DELETE" method="POST">
+                                                        <input type="hidden" name="idCart"
+                                                            value="<%= element.idCart %>">
+                                                        <button type="submit" class="btn btn-danger btn-sm"><i
+                                                                class="fas fa-times"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } %>
                     </tbody>
                 </table>
                 <hr>

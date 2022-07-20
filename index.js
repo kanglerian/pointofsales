@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
-import { getAllCashier, getAllTransaksi, getTransaksi } from './controllers/admin/transaksi.js';
-import { getAllBarang } from './controllers/admin/barang.js';
+import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi } from './controllers/admin/transaksi.js';
+import { addBarang, deleteBarang, getAllBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
 import Auth from './middlewares/auth.js';
@@ -80,6 +80,19 @@ app.post('/checkout', async (req, res) => {
       harga: carts[i].harga,
       jumlah: carts[i].jumlah,
     };
+    var barang = await Model.Barang.findOne({
+      where: {
+        nama_barang: carts[i].nama_barang
+      }
+    });
+    const updateQty = barang.qty - carts[i].jumlah 
+    await Model.Barang.update({
+      qty: updateQty
+    },{
+      where: {
+        nama_barang: carts[i].nama_barang
+      }
+    });
     detailTransaksi.push(obj);
   }
   await Model.Transaksi.create(transaksi);
@@ -160,8 +173,11 @@ app.get('/car', (req, res) => {
 
 app.use('/dashboard', Auth.checkLogin, Auth.checkStatus, getAllDashboard);
 app.use('/cashier', Auth.checkLogin, getAllCashier);
+app.use('/transaksi/delete', Auth.checkLogin, deleteTransaksi);
 app.use('/transaksi/:trx', Auth.checkLogin, getTransaksi);
 app.use('/transaksi', Auth.checkLogin, getAllTransaksi);
+app.use('/barang/delete', Auth.checkLogin, Auth.checkStatus, deleteBarang);
+app.use('/barang/tambah', Auth.checkLogin, Auth.checkStatus, addBarang);
 app.use('/barang', Auth.checkLogin, Auth.checkStatus, getAllBarang);
 
 

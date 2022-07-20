@@ -14,6 +14,9 @@ const Barang = db.define('barang',{
   vendor: {
     type: DataTypes.STRING
   },
+  qty: {
+    type: DataTypes.INTEGER
+  },
   harga: {
     type: DataTypes.INTEGER
   }
