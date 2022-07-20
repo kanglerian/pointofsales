@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 20 Jul 2022 pada 11.20
--- Versi server: 10.4.18-MariaDB
--- Versi PHP: 7.4.16
+-- Generation Time: Jul 20, 2022 at 04:23 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
@@ -32,21 +32,24 @@ CREATE TABLE `barang` (
   `nama_barang` varchar(255) NOT NULL,
   `vendor` varchar(255) NOT NULL,
   `qty` int(11) NOT NULL,
-  `harga` int(11) NOT NULL
+  `harga` int(11) NOT NULL,
+  `harga_beli` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `barang`
+-- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`id`, `nama_barang`, `vendor`, `qty`, `harga`) VALUES
-(1, 'Indomie Goreng', 'Hanin Store', -1, 3000),
-(2, 'Sedap Goreng', 'Ale Store', 10, 2500);
+INSERT INTO `barang` (`id`, `nama_barang`, `vendor`, `qty`, `harga`, `harga_beli`) VALUES
+(6, 'Indomie Goreng', 'Pasar', 31, 3000, 2600),
+(7, 'Indomie Goreng', 'Toko Sinar Pagi', 31, 3000, 2800),
+(8, 'Sedap Goreng', 'Pasar Cikurubuk', 37, 3000, 2700),
+(9, 'Beras', 'Agus Beras', 89, 11000, 9500);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `detail_transaksi`
+-- Table structure for table `detail_transaksi`
 --
 
 CREATE TABLE `detail_transaksi` (
@@ -55,22 +58,22 @@ CREATE TABLE `detail_transaksi` (
   `nama_barang` varchar(255) NOT NULL,
   `vendor` varchar(255) NOT NULL,
   `harga` int(11) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `detail_transaksi`
+-- Dumping data for table `detail_transaksi`
 --
 
-INSERT INTO `detail_transaksi` (`id`, `no_trx`, `nama_barang`, `vendor`, `harga`, `jumlah`) VALUES
-(30, 'TRX1658304196750', 'Indomie Goreng', 'Hanin Store', 3000, 5),
-(31, 'TRX1658304264036', 'Indomie Goreng', 'Hanin Store', 3000, 1),
-(32, 'TRX1658308833156', 'Indomie Goreng', 'Hanin Store', 3000, 5);
+INSERT INTO `detail_transaksi` (`id`, `no_trx`, `nama_barang`, `vendor`, `harga`, `harga_beli`, `jumlah`) VALUES
+(42, 'TRX1658326592001', 'Indomie Goreng', 'Pasar', 3000, 2600, 2),
+(43, 'TRX1658326592001', 'Beras', 'Agus Beras', 11000, 9500, 2);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengguna`
+-- Table structure for table `pengguna`
 --
 
 CREATE TABLE `pengguna` (
@@ -81,7 +84,7 @@ CREATE TABLE `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `pengguna`
+-- Dumping data for table `pengguna`
 --
 
 INSERT INTO `pengguna` (`nik`, `username`, `password`, `role`) VALUES
@@ -91,7 +94,7 @@ INSERT INTO `pengguna` (`nik`, `username`, `password`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transaksi`
+-- Table structure for table `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -102,57 +105,55 @@ CREATE TABLE `transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `transaksi`
+-- Dumping data for table `transaksi`
 --
 
 INSERT INTO `transaksi` (`no_trx`, `nama_pelanggan`, `tanggal`, `bayar`) VALUES
-('TRX1658304196750', 'Lerian', '2022-07-20', 20000),
-('TRX1658304264036', 'Naima', '2022-07-20', 5000),
-('TRX1658308833156', 'anuu', '2022-07-20', 20000);
+('TRX1658326592001', 'Hanin', '2022-07-20', 30000);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `detail_transaksi`
+-- Indexes for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `pengguna`
+-- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`nik`);
 
 --
--- Indeks untuk tabel `transaksi`
+-- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`no_trx`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `barang`
+-- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `detail_transaksi`
+-- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

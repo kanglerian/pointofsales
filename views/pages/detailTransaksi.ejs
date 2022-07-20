@@ -18,7 +18,7 @@
               <th>Nama Barang</th>
               <th>Supplier</th>
               <th>Jumlah</th>
-              <th>Harga(pcs)</th>
+              <th>Laba</th>
               <th>Total</th>
               <th>Aksi</th>
             </tr>
@@ -27,39 +27,43 @@
             <% let no=1; %>
               <% let total=0; %>
                 <% let totalBayar=0; %>
-                  <% detail.forEach(element=> { %>
-                    <tr>
-                      <td>
-                        <%= no++ %>
-                      </td>
-                      <td>
-                        <%= element.nama_barang %>
-                      </td>
-                      <td>
-                        <%= element.vendor %>
-                      </td>
-                      <td>
-                        <%= element.jumlah %>
-                      </td>
-                      <td>
-                        Rp<%= element.harga.toLocaleString('id-ID')%>
-                      </td>
-                      <td>
-                        <% total = element.harga * element.jumlah %>
-                        <% totalBayar +=total %>
-                        Rp<%= total.toLocaleString('id-ID') %>
-                      </td>
-                      <td>
-                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    <% }); %>
+                  <% let totalLaba=0; %>
+                    <% detail.forEach(element=> { %>
+                      <tr>
+                        <td>
+                          <%= no++ %>
+                        </td>
+                        <td>
+                          <%= element.nama_barang %>
+                        </td>
+                        <td>
+                          <%= element.vendor %>
+                        </td>
+                        <td>
+                          <%= element.jumlah %>
+                        </td>
+                        <td>
+                          <% const laba=(element.harga - element.harga_beli) * element.jumlah %>
+                            <% totalLaba +=laba %>
+                              Rp<%= laba.toLocaleString('id-ID') %>
+                        </td>
+                        <td>
+                          <% total=element.harga * element.jumlah %>
+                            <% totalBayar +=total %>
+                              Rp<%= total.toLocaleString('id-ID') %>
+                        </td>
+                        <td>
+                          <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                          <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        </td>
+                      </tr>
+                      <% }); %>
           </tbody>
         </table>
       </div>
       <hr>
-      <h2 class="text-right"><b>Rp<%= totalBayar.toLocaleString('id-ID') %></b></h2>
+      <span class="btn btn-primary btn-sm"><b>Total:</b> Rp<%= totalBayar.toLocaleString('id-ID') %></span>
+      <span class="btn btn-success btn-sm"><b>Laba:</b> Rp<%= totalLaba.toLocaleString('id-ID') %></span>
     </div>
   </div>
 

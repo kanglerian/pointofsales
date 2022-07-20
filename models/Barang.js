@@ -19,6 +19,9 @@ const Barang = db.define('barang',{
   },
   harga: {
     type: DataTypes.INTEGER
+  },
+  harga_beli: {
+    type: DataTypes.INTEGER
   }
 },{
   freezeTableName: true,

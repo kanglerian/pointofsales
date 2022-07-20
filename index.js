@@ -48,6 +48,7 @@ app.post('/addCart', async (req, res) => {
     nama_barang: barang.nama_barang,
     vendor: barang.vendor,
     harga: barang.harga,
+    harga_beli: barang.harga_beli,
     jumlah: req.body.jumlah,
   }
   session_store.carts.push(obj);
@@ -78,6 +79,7 @@ app.post('/checkout', async (req, res) => {
       nama_barang: carts[i].nama_barang,
       vendor: carts[i].vendor,
       harga: carts[i].harga,
+      harga_beli: carts[i].harga_beli,
       jumlah: carts[i].jumlah,
     };
     var barang = await Model.Barang.findOne({

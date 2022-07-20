@@ -1,5 +1,64 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
+  <div class="row">
+    <% let laba = 0;%>
+    <% let omset = 0;%>
+    <% detail.forEach(det => {
+      laba += (det.harga - det.harga_beli) * det.jumlah
+      omset += det.harga * det.jumlah
+    }); %>
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Omset</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">Rp<%= omset.toLocaleString('id-ID') %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-cash-register fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Laba</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">Rp<%= laba.toLocaleString('id-ID') %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-coins fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-md-4 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= transaksi.length %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-sticky-note fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-body">
@@ -39,7 +98,8 @@
                         class="fas fa-print"></i></a>
                     <a href="/transaksi/<%= element.no_trx %>" class="btn btn-primary btn-sm"><i
                         class="fas fa-eye"></i></a>
-                    <button type="button" data-toggle="modal" data-target="#editTransaksi<%= element.no_trx %>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                    <button type="button" data-toggle="modal" data-target="#editTransaksi<%= element.no_trx %>"
+                      class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
 
                     <div class="modal fade" id="editTransaksi<%= element.no_trx %>" tabindex="-1">
                       <div class="modal-dialog">

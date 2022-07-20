@@ -15,11 +15,13 @@ export const getAllCashier = async (req, res) => {
 export const getAllTransaksi = async (req, res) => {
   const session_store = req.session;
   const transaksi = await Model.Transaksi.findAll();
+  const detail = await Model.DetailTransaksi.findAll();
   res.render('pages/transaksi',{
     layout: 'layouts/admin',
     user: session_store,
     transaksi: transaksi,
     url: req.originalUrl,
+    detail: detail,
   });
 }
 

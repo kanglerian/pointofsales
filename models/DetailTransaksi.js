@@ -16,6 +16,9 @@ const DetailTransaksi = db.define('detail_transaksi',{
   harga: {
     type: DataTypes.INTEGER
   },
+  harga_beli: {
+    type: DataTypes.INTEGER
+  },
   jumlah: {
     type: DataTypes.INTEGER
   }

@@ -12,7 +12,7 @@
                                 <select class="form-control" id="barang-select2" name="id_barang">
                                     <% goods.forEach( good=> { %>
                                         <option value="<%= good.id %>">
-                                            <%= good.nama_barang %>
+                                            <%= good.nama_barang %> [<%= good.vendor %>]
                                         </option>
                                         <% }) %>
                                 </select>
@@ -21,7 +21,8 @@
                             <label>Qty</label>
                             <input type="number" class="form-control" name="jumlah" placeholder="Jumlah" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fas fa-cart-plus"></i> Tambah
+                        <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fas fa-cart-plus"></i>
+                            Tambah
                             ke keranjang</button>
                     </form>
                 </div>
@@ -69,6 +70,11 @@
     </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
+        <div class="card-header">
+            <% let total=0; %>
+            <% let totalBayar=0; %>
+            <h2 class="m-0 btn btn-primary"><b>Rp<%= totalBayar.toLocaleString('id-ID') %></b></h2>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -84,43 +90,38 @@
                     </thead>
                     <tbody>
                         <% let no=1; %>
-                            <% let total=0; %>
-                                <% let totalBayar=0; %>
-                                    <% if(carts !=null) { %>
-                                        <% carts.forEach(element=> { %>
-                                            <tr>
-                                                <td>
-                                                    <%= no++ %>
-                                                </td>
-                                                <td>
-                                                    <%= element.nama_barang %>
-                                                </td>
-                                                <td>
-                                                    <%= element.jumlah %>
-                                                </td>
-                                                <td>
-                                                    Rp<%= element.harga.toLocaleString('id-ID') %>
-                                                </td>
-                                                <td>
-                                                    <% total=element.harga * element.jumlah %>
-                                                        Rp<%= total.toLocaleString('id-ID') %>
-                                                            <% totalBayar +=total %>
-                                                </td>
-                                                <td>
-                                                    <form action="/deleteItem?_method=DELETE" method="POST">
-                                                        <input type="hidden" name="idCart"
-                                                            value="<%= element.idCart %>">
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="fas fa-times"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <% }); %>
-                                                <% } %>
+                            <% if(carts !=null) { %>
+                                <% carts.forEach(element=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= no++ %>
+                                        </td>
+                                        <td>
+                                            <%= element.nama_barang %>
+                                        </td>
+                                        <td>
+                                            <%= element.jumlah %>
+                                        </td>
+                                        <td>
+                                            Rp<%= element.harga.toLocaleString('id-ID') %>
+                                        </td>
+                                        <td>
+                                            <% total=element.harga * element.jumlah %>
+                                                Rp<%= total.toLocaleString('id-ID') %>
+                                                    <% totalBayar +=total %>
+                                        </td>
+                                        <td>
+                                            <form action="/deleteItem?_method=DELETE" method="POST">
+                                                <input type="hidden" name="idCart" value="<%= element.idCart %>">
+                                                <button type="submit" class="btn btn-danger btn-sm"><i
+                                                        class="fas fa-times"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } %>
                     </tbody>
                 </table>
-                <hr>
-                <h2 class="text-right"><b>Rp<%= totalBayar.toLocaleString('id-ID') %></b></h2>
             </div>
         </div>
     </div>
