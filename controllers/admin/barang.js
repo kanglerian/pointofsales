@@ -23,6 +23,22 @@ export const addBarang = async (req, res) => {
   }
 }
 
+export const updateBarang = async (req, res) => {
+  try {
+    const data = req.body;
+    await Model.Barang.update(data,{
+      where: {
+        id: req.body.id
+      }
+    });
+    res.redirect('back');
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
+}
+
 export const deleteBarang = async (req, res) => {
   try {
     await Model.Barang.destroy({

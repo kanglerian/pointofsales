@@ -9,19 +9,19 @@
                             <% const d=new Date(); %>
                                 <input type="hidden" name="idCart" value="<%= d.getTime() %>">
                                 <label>Pilih Barang:</label>
-                                <select class="form-control" name="id_barang">
-                                    <% goods.forEach( good => { %>
+                                <select class="form-control" id="barang-select2" name="id_barang">
+                                    <% goods.forEach( good=> { %>
                                         <option value="<%= good.id %>">
                                             <%= good.nama_barang %>
                                         </option>
-                                    <% }) %>
+                                        <% }) %>
                                 </select>
                         </div>
                         <div class="form-group">
                             <label>Qty</label>
                             <input type="number" class="form-control" name="jumlah" placeholder="Jumlah" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-cart-plus"></i> Tambah
+                        <button type="submit" class="btn btn-primary btn-sm btn-block"><i class="fas fa-cart-plus"></i> Tambah
                             ke keranjang</button>
                     </form>
                 </div>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success btn-block"><i class="fas fa-save"></i>
+                        <button type="submit" class="btn btn-success btn-sm btn-block"><i class="fas fa-save"></i>
                             Selesai</button>
                     </form>
                 </div>

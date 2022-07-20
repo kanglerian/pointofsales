@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
-import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi } from './controllers/admin/transaksi.js';
-import { addBarang, deleteBarang, getAllBarang } from './controllers/admin/barang.js';
+import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi, updateTransaksi } from './controllers/admin/transaksi.js';
+import { addBarang, deleteBarang, getAllBarang, updateBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
 import Auth from './middlewares/auth.js';
@@ -174,9 +174,11 @@ app.get('/car', (req, res) => {
 app.use('/dashboard', Auth.checkLogin, Auth.checkStatus, getAllDashboard);
 app.use('/cashier', Auth.checkLogin, getAllCashier);
 app.use('/transaksi/delete', Auth.checkLogin, deleteTransaksi);
+app.use('/transaksi/update', Auth.checkLogin, updateTransaksi);
 app.use('/transaksi/:trx', Auth.checkLogin, getTransaksi);
 app.use('/transaksi', Auth.checkLogin, getAllTransaksi);
 app.use('/barang/delete', Auth.checkLogin, Auth.checkStatus, deleteBarang);
+app.use('/barang/update', Auth.checkLogin, Auth.checkStatus, updateBarang);
 app.use('/barang/tambah', Auth.checkLogin, Auth.checkStatus, addBarang);
 app.use('/barang', Auth.checkLogin, Auth.checkStatus, getAllBarang);
 

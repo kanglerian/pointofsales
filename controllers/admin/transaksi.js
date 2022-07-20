@@ -44,6 +44,22 @@ export const getTransaksi = async (req, res) => {
   });
 }
 
+export const updateTransaksi = async (req, res) => {
+  try {
+    const data = req.body;
+    await Model.Transaksi.update(data,{
+      where: {
+        no_trx: req.body.trx
+      }
+    });
+    res.redirect('back');
+  } catch (error) {
+    res.json({
+      message: error.message,
+    });
+  }
+}
+
 export const deleteTransaksi = async (req, res) => {
   try {
     await Model.Transaksi.destroy({

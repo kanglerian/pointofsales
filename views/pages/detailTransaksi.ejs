@@ -42,11 +42,12 @@
                         <%= element.jumlah %>
                       </td>
                       <td>
-                        <%= element.harga %>
+                        Rp<%= element.harga.toLocaleString('id-ID')%>
                       </td>
                       <td>
-                        Rp<%= total=element.harga * element.jumlah %>
-                          <% totalBayar +=total %>
+                        <% total = element.harga * element.jumlah %>
+                        <% totalBayar +=total %>
+                        Rp<%= total.toLocaleString('id-ID') %>
                       </td>
                       <td>
                         <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>

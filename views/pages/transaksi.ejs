@@ -11,12 +11,13 @@
               <th>No Transaksi</th>
               <th>Nama Lengkap</th>
               <th>Tanggal</th>
+              <th>Bayar</th>
               <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             <% let no=1; %>
-              <% transaksi.forEach(element => { %>
+              <% transaksi.forEach(element=> { %>
                 <tr>
                   <td>
                     <%= no++ %>
@@ -31,9 +32,47 @@
                     <%= element.tanggal %>
                   </td>
                   <td>
-                    <a href="/invoice/<%= element.no_trx %>" target="_blank" class="btn btn-info btn-sm"><i class="fas fa-print"></i></a>
-                    <a href="/transaksi/<%= element.no_trx %>" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
-                    <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+                    Rp<%= element.bayar.toLocaleString('id-ID') %>
+                  </td>
+                  <td>
+                    <a href="/invoice/<%= element.no_trx %>" target="_blank" class="btn btn-info btn-sm"><i
+                        class="fas fa-print"></i></a>
+                    <a href="/transaksi/<%= element.no_trx %>" class="btn btn-primary btn-sm"><i
+                        class="fas fa-eye"></i></a>
+                    <button type="button" data-toggle="modal" data-target="#editTransaksi<%= element.no_trx %>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button>
+
+                    <div class="modal fade" id="editTransaksi<%= element.no_trx %>" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit transaksi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form method="POST" action="/transaksi/update">
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <input type="hidden" name="trx" value="<%= element.no_trx %>">
+                                <label>Nama pelanggan:</label>
+                                <input type="text" name="nama_pelanggan" class="form-control"
+                                  value="<%= element.nama_pelanggan %>" required>
+                              </div>
+                              <div class="form-group">
+                                <label>Bayar:</label>
+                                <input type="number" name="bayar" class="form-control" value="<%= element.bayar %>"
+                                  required>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
                     <form action="/transaksi/delete?_method=DELETE" method="POST" class="d-inline">
                       <input type="hidden" name="trx" value="<%= element.no_trx %>">
                       <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
