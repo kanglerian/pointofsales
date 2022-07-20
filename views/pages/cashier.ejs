@@ -10,11 +10,11 @@
                                 <input type="hidden" name="idCart" value="<%= d.getTime() %>">
                                 <label>Pilih Barang:</label>
                                 <select class="form-control" name="id_barang">
-                                    <% goods.forEach( good=> { %>
+                                    <% goods.forEach( good => { %>
                                         <option value="<%= good.id %>">
                                             <%= good.nama_barang %>
                                         </option>
-                                        <% }) %>
+                                    <% }) %>
                                 </select>
                         </div>
                         <div class="form-group">

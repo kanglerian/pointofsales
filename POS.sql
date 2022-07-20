@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2022 at 05:11 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.0.19
+-- Waktu pembuatan: 20 Jul 2022 pada 11.20
+-- Versi server: 10.4.18-MariaDB
+-- Versi PHP: 7.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,29 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barang`
+-- Struktur dari tabel `barang`
 --
 
 CREATE TABLE `barang` (
   `id` int(11) NOT NULL,
   `nama_barang` varchar(255) NOT NULL,
   `vendor` varchar(255) NOT NULL,
+  `qty` int(11) NOT NULL,
   `harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `barang`
+-- Dumping data untuk tabel `barang`
 --
 
-INSERT INTO `barang` (`id`, `nama_barang`, `vendor`, `harga`) VALUES
-(1, 'Indomie Goreng', 'Hanin Store', 3000),
-(2, 'Sedap Goreng', 'Ale Store', 2500),
-(3, 'Sarimi Goreng', 'Asia Plaza', 3500);
+INSERT INTO `barang` (`id`, `nama_barang`, `vendor`, `qty`, `harga`) VALUES
+(1, 'Indomie Goreng', 'Hanin Store', -1, 3000),
+(2, 'Sedap Goreng', 'Ale Store', 10, 2500);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_transaksi`
+-- Struktur dari tabel `detail_transaksi`
 --
 
 CREATE TABLE `detail_transaksi` (
@@ -59,18 +59,18 @@ CREATE TABLE `detail_transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_transaksi`
+-- Dumping data untuk tabel `detail_transaksi`
 --
 
 INSERT INTO `detail_transaksi` (`id`, `no_trx`, `nama_barang`, `vendor`, `harga`, `jumlah`) VALUES
-(27, 'TRX1658215816171', 'Indomie Goreng', 'Hanin Store', 3000, 2),
-(28, 'TRX1658215816171', 'Sedap Goreng', 'Ale Store', 2500, 2),
-(29, 'TRX1658218192944', 'Sarimi Goreng', 'Asia Plaza', 3500, 2);
+(30, 'TRX1658304196750', 'Indomie Goreng', 'Hanin Store', 3000, 5),
+(31, 'TRX1658304264036', 'Indomie Goreng', 'Hanin Store', 3000, 1),
+(32, 'TRX1658308833156', 'Indomie Goreng', 'Hanin Store', 3000, 5);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengguna`
+-- Struktur dari tabel `pengguna`
 --
 
 CREATE TABLE `pengguna` (
@@ -81,7 +81,7 @@ CREATE TABLE `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `pengguna`
+-- Dumping data untuk tabel `pengguna`
 --
 
 INSERT INTO `pengguna` (`nik`, `username`, `password`, `role`) VALUES
@@ -91,7 +91,7 @@ INSERT INTO `pengguna` (`nik`, `username`, `password`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
+-- Struktur dari tabel `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -102,56 +102,57 @@ CREATE TABLE `transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `transaksi`
+-- Dumping data untuk tabel `transaksi`
 --
 
 INSERT INTO `transaksi` (`no_trx`, `nama_pelanggan`, `tanggal`, `bayar`) VALUES
-('TRX1658215816171', 'Agus Suherman', '2022-07-19', 15000),
-('TRX1658218192944', 'Sopyan', '2022-07-19', 10000);
+('TRX1658304196750', 'Lerian', '2022-07-20', 20000),
+('TRX1658304264036', 'Naima', '2022-07-20', 5000),
+('TRX1658308833156', 'anuu', '2022-07-20', 20000);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `barang`
+-- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `detail_transaksi`
+-- Indeks untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pengguna`
+-- Indeks untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`nik`);
 
 --
--- Indexes for table `transaksi`
+-- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`no_trx`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `barang`
+-- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `detail_transaksi`
+-- AUTO_INCREMENT untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
