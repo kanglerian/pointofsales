@@ -12,7 +12,7 @@ const Transaksi = db.define('transaksi',{
     type: DataTypes.STRING
   },
   tanggal: {
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   bayar: {
     type: DataTypes.INTEGER

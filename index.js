@@ -5,11 +5,14 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
-import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi, updateTransaksi } from './controllers/admin/transaksi.js';
+import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi, getTransaksiByDate, updateTransaksi } from './controllers/admin/transaksi.js';
 import { addBarang, deleteBarang, getAllBarang, updateBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
 import Auth from './middlewares/auth.js';
+
+import Sequelize from 'sequelize';
+const Op = Sequelize.Op;
 
 const app = express();
 const port = 3000;
@@ -76,6 +79,7 @@ app.post('/checkout', async (req, res) => {
   for (let i = 0; i < penampungan.length; i++) {
     var obj = {
       no_trx: req.body.no_trx,
+      tanggal: req.body.tanggal,
       nama_barang: carts[i].nama_barang,
       vendor: carts[i].vendor,
       harga: carts[i].harga,
@@ -173,12 +177,24 @@ app.get('/car', (req, res) => {
   res.send(penampungan);
 });
 
+app.get('/cobi', async (req, res) => {
+  const transaksi = await Model.Transaksi.findAll({
+    where: {
+      tanggal: {
+        [Op.between]: ["2022-07-20","2022-07-22",]
+      }
+    }
+  });
+  res.send(transaksi);
+});
+
 app.use('/dashboard', Auth.checkLogin, Auth.checkStatus, getAllDashboard);
 app.use('/cashier', Auth.checkLogin, getAllCashier);
 app.use('/transaksi/delete', Auth.checkLogin, deleteTransaksi);
 app.use('/transaksi/update', Auth.checkLogin, updateTransaksi);
+app.use('/transaksi/sort', getTransaksiByDate);
 app.use('/transaksi/:trx', Auth.checkLogin, getTransaksi);
-app.use('/transaksi', Auth.checkLogin, getAllTransaksi);
+app.use('/transaksi', getAllTransaksi);
 app.use('/barang/delete', Auth.checkLogin, Auth.checkStatus, deleteBarang);
 app.use('/barang/update', Auth.checkLogin, Auth.checkStatus, updateBarang);
 app.use('/barang/tambah', Auth.checkLogin, Auth.checkStatus, addBarang);

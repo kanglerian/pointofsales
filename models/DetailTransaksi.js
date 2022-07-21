@@ -7,6 +7,9 @@ const DetailTransaksi = db.define('detail_transaksi',{
   no_trx: {
     type: DataTypes.STRING,
   },
+  tanggal: {
+    type: DataTypes.DATEONLY
+  },
   nama_barang: {
     type: DataTypes.STRING
   },
