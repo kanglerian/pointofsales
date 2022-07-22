@@ -8,7 +8,8 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Barang</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= goods.length %>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <%= goods.length %>
               </div>
             </div>
             <div class="col-auto">
@@ -23,8 +24,9 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header">
-      <button type="button" data-toggle="modal" data-target="#tambahBarang" class="btn btn-primary btn-sm">Tambah
+      <button type="button" data-toggle="modal" data-target="#tambahBarang" class="btn btn-primary btn-sm mr-2"><i class="fas fa-plus"></i> Tambah
         data</button>
+      <a href="/barang/download" class="btn btn-success btn-sm"><i class="fas fa-download"></i> Download </a>
     </div>
     <div class="card-body">
       <div class="table-responsive">

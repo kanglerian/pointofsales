@@ -108,3 +108,23 @@ export const deleteTransaksi = async (req, res) => {
     });
   }
 }
+
+export const getInvoice = async (req, res) => {
+  const session_store = req.session;
+  const transaksi = await Model.Transaksi.findOne({
+    where: {
+      no_trx: req.params.trx
+    }
+  });
+  const detail = await Model.DetailTransaksi.findAll({
+    where: {
+      no_trx: req.params.trx
+    }
+  });
+  res.render('pages/faktur', {
+    layout: 'layouts/faktur',
+    detail,
+    transaksi,
+    user: session_store
+  });
+}

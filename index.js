@@ -5,14 +5,11 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import expressEjsLayouts from 'express-ejs-layouts';
 import { getAllDashboard } from './controllers/admin/dashboard.js';
-import { deleteTransaksi, getAllCashier, getAllTransaksi, getTransaksi, getTransaksiByDate, updateTransaksi } from './controllers/admin/transaksi.js';
-import { addBarang, deleteBarang, getAllBarang, updateBarang } from './controllers/admin/barang.js';
+import { deleteTransaksi, getAllCashier, getAllTransaksi, getInvoice, getTransaksi, getTransaksiByDate, updateTransaksi } from './controllers/admin/transaksi.js';
+import { addBarang, deleteBarang, getAllBarang, getAllExcel, updateBarang } from './controllers/admin/barang.js';
 
 import Model from './models/index.js';
 import Auth from './middlewares/auth.js';
-
-import Sequelize from 'sequelize';
-const Op = Sequelize.Op;
 
 const app = express();
 const port = 3000;
@@ -91,10 +88,10 @@ app.post('/checkout', async (req, res) => {
         nama_barang: carts[i].nama_barang
       }
     });
-    const updateQty = barang.qty - carts[i].jumlah 
+    const updateQty = barang.qty - carts[i].jumlah
     await Model.Barang.update({
       qty: updateQty
-    },{
+    }, {
       where: {
         nama_barang: carts[i].nama_barang
       }
@@ -109,7 +106,6 @@ app.post('/checkout', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const date = new Date();
   const session_store = req.session;
   if (req.body.username == "" || req.body.password == "") {
     return res.redirect('/');
@@ -148,56 +144,18 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/invoice/:trx', async (req, res) => {
-  const session_store = req.session;
-  const transaksi = await Model.Transaksi.findOne({
-    where: {
-      no_trx: req.params.trx
-    }
-  });
-  const detail = await Model.DetailTransaksi.findAll({
-    where: {
-      no_trx: req.params.trx
-    }
-  });
-  res.render('pages/faktur', {
-    layout: 'layouts/faktur',
-    detail,
-    transaksi,
-    user: session_store
-  });
-});
-
-app.get('/sesi', (req, res) => {
-  const session_store = req.session;
-  res.send(session_store);
-});
-
-app.get('/car', (req, res) => {
-  res.send(penampungan);
-});
-
-app.get('/cobi', async (req, res) => {
-  const transaksi = await Model.Transaksi.findAll({
-    where: {
-      tanggal: {
-        [Op.between]: ["2022-07-20","2022-07-22",]
-      }
-    }
-  });
-  res.send(transaksi);
-});
-
 app.use('/dashboard', Auth.checkLogin, Auth.checkStatus, getAllDashboard);
 app.use('/cashier', Auth.checkLogin, getAllCashier);
 app.use('/transaksi/delete', Auth.checkLogin, deleteTransaksi);
 app.use('/transaksi/update', Auth.checkLogin, updateTransaksi);
-app.use('/transaksi/sort', getTransaksiByDate);
+app.use('/transaksi/sort', Auth.checkLogin, getTransaksiByDate);
 app.use('/transaksi/:trx', Auth.checkLogin, getTransaksi);
-app.use('/transaksi', getAllTransaksi);
+app.use('/transaksi', Auth.checkLogin, getAllTransaksi);
+app.use('/invoice/:trx', Auth.checkLogin, getInvoice);
 app.use('/barang/delete', Auth.checkLogin, Auth.checkStatus, deleteBarang);
 app.use('/barang/update', Auth.checkLogin, Auth.checkStatus, updateBarang);
 app.use('/barang/tambah', Auth.checkLogin, Auth.checkStatus, addBarang);
+app.use('/barang/download', Auth.checkLogin, Auth.checkStatus, getAllExcel);
 app.use('/barang', Auth.checkLogin, Auth.checkStatus, getAllBarang);
 
 
