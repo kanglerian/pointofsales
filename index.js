@@ -11,6 +11,8 @@ import { addBarang, deleteBarang, getAllBarang, getAllExcel, updateBarang } from
 import Model from './models/index.js';
 import Auth from './middlewares/auth.js';
 
+import ExcelJS from 'exceljs';
+
 const app = express();
 const port = 3000;
 

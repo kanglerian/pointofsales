@@ -1,6 +1,12 @@
 import Model from '../../models/index.js'
 import ExcelJS from 'exceljs';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export const getAllBarang = async (req, res) => {
   const session_store = req.session;
   const barang = await Model.Barang.findAll();
@@ -55,10 +61,10 @@ export const deleteBarang = async (req, res) => {
   }
 }
 
+
 export const getAllExcel = async (req, res) => {
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet('My Sheet');
-  const path = "../Downloads";
   const Data = await Model.Barang.findAll();
   sheet.columns = [
     { header: 'ID', key: 'id', width: 10, },
@@ -86,9 +92,12 @@ export const getAllExcel = async (req, res) => {
 
   sheet.getColumn(5).numFmt = '"Rp"#,##0;[Red]\-"£"#,##0';
   sheet.getColumn(6).numFmt = '"Rp"#,##0;[Red]\-"£"#,##0';
-
+  const d = new Date();
+  const tanggal =  d.getTime();
+  const filename = `data-barang-${tanggal}.xlsx`;
+  const lokasi = './download/barang';
   try {
-    const data = await workbook.xlsx.writeFile(`${path}/data-barang.xlsx`)
+    await workbook.xlsx.writeFile(`${lokasi}/${filename}`)
     .then(() => {
       res.redirect('back');
     });
